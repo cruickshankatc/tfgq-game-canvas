@@ -6,64 +6,38 @@ canvas.style.background = "#333";
 
 context.fillStyle = "gray";
 
+let tileSize;
+
+let goofyAhhSquare = {
+    x: undefined,
+    y: 0,
+    width: undefined,
+    height: undefined,
+}
+
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    // Redraw or reposition your game elements based on the new dimensions
 
+    drawCanvas();
 }
-
-// Initial resize
-resizeCanvas();
 
 // Event listener for window resize
 window.addEventListener('resize', resizeCanvas);
 
-let goofyAhhSquare = {
-    x: 50,
-    y: 0,
-    width: 50,
-    height: 50,
-}
-
-for (x = 0; x < 5; x++) {
-    context.fillRect(50 * x, 0, 50, 50);
-
-    context.strokeStyle = 'black'; 
-    context.lineWidth = 1; 
-    context.strokeRect(50 * x, 0, 50, 50);
-}
-
-function turnRed() {
-    context.fillStyle = "red";
-    context.fillRect(50, 0, 50, 50);
-    context.strokeStyle = 'black'; 
-    context.lineWidth = 1; 
-    context.strokeRect(50, 0, 50, 50);
-}
-
-function turnGray() {
-    context.fillStyle = "gray";
-    context.fillRect(50, 0, 50, 50);
-    context.strokeStyle = 'black'; 
-    context.lineWidth = 1; 
-    context.strokeRect(50, 0, 50, 50);    
-}
-
 let swindle = new Image();
-
 swindle.src = "images/swindle.png";
 
-swindle.onload = function() {
-    let x = 100;
+function swindleLoad() {
+    let x = tileSize;
     let y = 0;
-    let width = canvas.width/50;
-    let height = canvas.width/50;
+    let width = tileSize;
+    let height = tileSize;
 
-    context.drawImage(swindle, x, y, width, height);
+    context.drawImage(swindle, x, y, tileSize, tileSize);
     context.strokeStyle = 'black'; 
     context.lineWidth = 1; 
-    context.strokeRect(x, 0, 50, 50);  
+    context.strokeRect(x, 0, tileSize, tileSize);  
 }
 
 canvas.addEventListener('mousemove', function(event) {
@@ -76,5 +50,10 @@ canvas.addEventListener('mousemove', function(event) {
         turnRed();
     }  else {
         turnGray();
+        swindleLoad();
     }
 })
+
+swindle.onload = function() {
+    drawCanvas();  // Only call drawCanvas once the image is loaded
+};
